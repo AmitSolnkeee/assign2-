@@ -97,23 +97,35 @@ var designers = [
 ///------------------------Logic------------------------/////
 ///------------------------------------------------------/////
 
-    let a = leads.filter(itm => designers.some(itm1 =>itm.location == itm1.location));
+const date=new Date()
 
-    let res = a.filter(itm => designers.some(itm1 =>itm1.projectTypeIds.indexOf(itm.projectTypeIds)));
+leads.map((litem,lindex)=>{
 
-     res.map(itm => {
-        let date = new Date();
-        let t = date.getTime() - itm.createdOn.getTime();
-        let sec =  t/1000 ;
-        let h = sec/3600 ;
-        if(h > 3 && h < 24*14){
-           designers.map(itm1 =>{
-               if(itm1.location == itm.location){
-                   itm.assignedDesigners.push(itm1.id)
-               }
-           })
-        }
-    })
-    //
+     let t=date.getTime()-litem.createdOn.getTime()
+     let s=t/1000
+     let h=s/3600
+    if(h>3 && h<24*14){
 
-console.log(res)
+        designers.map((ditem,dindex)=>{
+
+            if(litem.location==ditem.location){
+
+                litem.projectTypeIds.map((pitem,pindex)=>{
+
+                    ditem.projectTypeIds.map((pditem,pdindex)=>{
+
+                        if(pitem==pditem){
+
+                            litem.assignedDesigners.push(ditem.id)
+
+                        }
+                    })
+                })
+            }
+        })
+    }
+})
+
+
+
+console.log(leads)
